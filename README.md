@@ -1,3 +1,29 @@
+                         TEAM LEADER
+                    ANUJ SINGH JADON
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+        DATABASE         FRONTEND        BACKEND
+        DEVELOPMENT      DEVELOPMENT     DEVELOPMENT
+              │              │              │
+              ▼              ▼        ┌─────┴─────┐
+          SUPABASE       SHIVNARAYAN   │           │
+          POSTGRESQL       SINGH       ▼           ▼
+          DATA DESIGN      CHOUHAN   VIKRAMADITYA  ROHIT
+                                      BONDAR       PATEL
+
+
+
+
+
+
+
+
+
+
+
+
 # Smart Medicine Safety
 
 ## Project Description
