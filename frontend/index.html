@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Smart Medicine Safety
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        💊 Smart Medicine
+    </div>
+
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="#search-section">
+            Search
+        </a>
+
+        <a
+            href="login.html"
+            id="loginNav"
+        >
+            Login
+        </a>
+
+        <a
+            href="signup.html"
+            class="signup-btn"
+        >
+            Sign Up
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-card">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                SMART MEDICINE SAFETY ASSISTANT
+            </div>
+
+
+            <h1>
+                Understand Your Medicine
+                Before You Take It
+            </h1>
+
+
+            <p>
+
+                Search a medicine by name,
+                check its safety information,
+                and review possible interactions
+                from one patient-friendly platform.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <button
+                    id="searchBtn"
+                    class="pill-btn"
+                >
+                    🔎 Search medicines
+                </button>
+
+
+                <button
+                    id="interactionBtn"
+                    class="pill-btn"
+                >
+                    ⚕️ Check interactions
+                </button>
+
+
+                <button
+                    id="safetyBtn"
+                    class="pill-btn"
+                >
+                    🛡️ Safety information
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- IMAGE -->
+
+<section class="image-container">
+
+    <img
+        src="a.jpg"
+        alt="Medicine safety"
+    >
+
+</section>
+
+
+
+<!-- SEARCH -->
+
+<section
+    id="search-section"
+    class="feature-section"
+>
+
+    <div class="section-title">
+
+        <span>
+            REAL-TIME SEARCH
+        </span>
+
+        <h2>
+            Search Medicines
+        </h2>
+
+        <p>
+            Search thousands of medicines
+            using RxNorm.
+        </p>
+
+    </div>
+
+
+    <div class="search-container">
+
+        <input
+            id="medicineSearch"
+            type="text"
+            placeholder="Search medicine e.g. paracetamol"
+        >
+
+        <button
+            id="medicineSearchBtn"
+        >
+            Search
+        </button>
+
+    </div>
+
+
+    <div
+        id="searchStatus"
+        class="status"
+    ></div>
+
+
+    <div
+        id="searchResults"
+        class="results"
+    ></div>
+
+</section>
+
+
+
+<!-- INTERACTION -->
+
+<section
+    id="interaction-section"
+    class="feature-section"
+>
+
+    <div class="section-title">
+
+        <span>
+            DRUG INTERACTION ENGINE
+        </span>
+
+        <h2>
+            Check Drug Interactions
+        </h2>
+
+        <p>
+            Enter two medicines to check
+            available interaction information.
+        </p>
+
+    </div>
+
+
+    <div class="interaction-form">
+
+        <input
+            id="drug1"
+            type="text"
+            placeholder="Medicine 1"
+        >
+
+
+        <input
+            id="drug2"
+            type="text"
+            placeholder="Medicine 2"
+        >
+
+
+        <button
+            id="checkInteractionBtn"
+        >
+            Check Interaction
+        </button>
+
+    </div>
+
+
+    <div
+        id="interactionResult"
+        class="result-box"
+    ></div>
+
+</section>
+
+
+
+<!-- SAFETY -->
+
+<section
+    id="safety-section"
+    class="feature-section"
+>
+
+    <div class="section-title">
+
+        <span>
+            OPENFDA
+        </span>
+
+        <h2>
+            Safety Information
+        </h2>
+
+        <p>
+            Retrieve available FDA
+            medicine labeling information.
+        </p>
+
+    </div>
+
+
+    <div class="search-container">
+
+        <input
+            id="safetyMedicine"
+            type="text"
+            placeholder="Medicine name e.g. ibuprofen"
+        >
+
+
+        <button
+            id="safetyBtnPage"
+        >
+            Get Safety Info
+        </button>
+
+    </div>
+
+
+    <div
+        id="safetyResult"
+        class="result-box"
+    ></div>
+
+</section>
+
+
+
+<footer>
+
+    <h3>
+        Smart Medicine Safety
+    </h3>
+
+    <p>
+        Smart Medicine Safety & Drug Interaction Assistant
+    </p>
+
+    <small>
+        Educational information only.
+        Always consult a qualified healthcare professional.
+    </small>
+
+</footer>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
