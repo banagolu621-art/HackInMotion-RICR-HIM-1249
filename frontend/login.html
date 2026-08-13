@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Login - Smart Medicine
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+
+<div class="auth-card">
+
+    <a
+        href="index.html"
+        class="back-link"
+    >
+        ← Back to Home
+    </a>
+
+
+    <div class="auth-icon">
+        💊
+    </div>
+
+
+    <h1>
+        Welcome Back
+    </h1>
+
+
+    <p>
+        Login to check drug interactions
+        and safety information.
+    </p>
+
+
+    <form id="loginForm">
+
+        <label>
+            Email
+        </label>
+
+        <input
+            id="loginEmail"
+            type="email"
+            required
+            placeholder="you@example.com"
+        >
+
+
+        <label>
+            Password
+        </label>
+
+        <input
+            id="loginPassword"
+            type="password"
+            required
+            placeholder="Password"
+        >
+
+
+        <button
+            type="submit"
+            class="primary-btn"
+        >
+            Login
+        </button>
+
+    </form>
+
+
+    <p
+        id="loginMessage"
+        class="form-message"
+    ></p>
+
+
+    <p class="auth-switch">
+
+        Don't have an account?
+
+        <a href="signup.html">
+            Sign Up
+        </a>
+
+    </p>
+
+</div>
+
+
+<script src="auth.js"></script>
+
+</body>
+
+</html>

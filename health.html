@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Smart Medicine Safety - Drug Interaction Checker</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 45px;
+      height: 45px;
+      background: #0d9488;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+
+    .logo-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .live-badge {
+      background: #134e4a;
+      color: #5eead4;
+      border: 1px solid #115e59;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .subtitle {
+      color: #cbd5e1;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    /* ================= HEADER BUTTONS ================= */
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .allergy-btn {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      padding: 9px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .allergy-btn:hover {
+      background: #334155;
+    }
+
+    .login-btn {
+      background: transparent;
+      color: white;
+      border: 1px solid #14b8a6;
+      padding: 9px 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .login-btn:hover {
+      background: #134e4a;
+    }
+
+    .register-btn {
+      background: #14b8a6;
+      color: white;
+      border: 1px solid #14b8a6;
+      padding: 9px 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .register-btn:hover {
+      background: #0f766e;
+      border-color: #0f766e;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #134e4a);
+      padding: 55px 20px 75px;
+      text-align: center;
+      color: white;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(20, 184, 166, 0.15);
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      color: #5eead4;
+      padding: 8px 15px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-wrapper {
+      max-width: 760px;
+      margin: -35px auto 30px;
+      position: relative;
+      z-index: 20;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      background: white;
+      border: 2px solid #2dd4bf;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 15px 40px rgba(15, 23, 42, 0.18);
+    }
+
+    .search-icon {
+      padding-left: 18px;
+      font-size: 23px;
+      color: #0d9488;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 20px 15px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      border-radius: 18px;
+    }
+
+    .search-input::placeholder {
+      color: #94a3b8;
+    }
+
+    /* ================= DROPDOWN ================= */
+
+    .dropdown {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 68px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+      display: none;
+      z-index: 100;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .medicine-result {
+      padding: 14px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      transition: 0.2s;
+    }
+
+    .medicine-result:last-child {
+      border-bottom: none;
+    }
+
+    .medicine-result:hover {
+      background: #f0fdfa;
+    }
+
+    .medicine-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .medicine-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: #ccfbf1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+    .medicine-name {
+      font-weight: bold;
+      font-size: 15px;
+      color: #0f172a;
+    }
+
+    .medicine-details {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+
+    .add-btn {
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .add-btn:hover {
+      background: #0f766e;
+    }
+
+    .add-btn.added {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .no-results {
+      padding: 25px;
+      text-align: center;
+      color: #64748b;
+    }
+
+    .no-results-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    /* ================= MAIN ================= */
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px 50px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: #ccfbf1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 21px;
+    }
+
+    .card-title h2 {
+      font-size: 17px;
+    }
+
+    .card-title p {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .count-badge {
+      background: #0d9488;
+      color: white;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      margin-left: 5px;
+    }
+
+    .clear-btn {
+      background: #fff1f2;
+      color: #e11d48;
+      border: none;
+      padding: 9px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .clear-btn:hover {
+      background: #ffe4e6;
+    }
+
+    /* ================= MEDICINE LIST ================= */
+
+    .medicine-list {
+      padding: 20px;
+    }
+
+    .selected-medicine {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 13px;
+      margin-bottom: 10px;
+    }
+
+    .selected-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .selected-icon {
+      width: 42px;
+      height: 42px;
+      background: #ccfbf1;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .selected-name {
+      font-weight: bold;
+    }
+
+    .selected-details {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .remove-btn {
+      background: #fff1f2;
+      color: #e11d48;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .remove-btn:hover {
+      background: #ffe4e6;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 35px;
+      color: #94a3b8;
+    }
+
+    .empty-state .big-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    /* ================= INTERACTION ================= */
+
+    .interaction-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .interaction-card {
+      padding: 18px;
+      border-radius: 13px;
+      border: 1px solid;
+    }
+
+    .interaction-card.severe {
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+
+    .interaction-card.moderate {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .interaction-card.safe {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .interaction-card h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .interaction-card p {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* ================= INFO ================= */
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .info-card {
+      background: #f8fafc;
+      border-radius: 13px;
+      padding: 18px;
+    }
+
+    .info-card h3 {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .info-card p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #64748b;
+    }
+
+    /* ================= MODAL ================= */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 18px;
+      top: 15px;
+      border: none;
+      background: transparent;
+      font-size: 22px;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .modal h2 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .modal-subtitle {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      padding: 12px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #14b8a6;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #0d9488;
+      color: white;
+      padding: 12px;
+      border-radius: 9px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .submit-btn:hover {
+      background: #0f766e;
+    }
+
+    .switch-text {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .switch-link {
+      color: #0d9488;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 25px;
+      font-size: 12px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 800px) {
+
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .interaction-grid,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        padding: 15px;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 550px) {
+
+      .medicine-result,
+      .selected-medicine {
+        align-items: flex-start;
+      }
+
+      .add-btn,
+      .remove-btn {
+        padding: 7px 9px;
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 40px 15px 60px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .header-right {
+        justify-content: center;
+      }
+
+      .allergy-btn {
+        display: none;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+  <div class="logo-area">
+
+    <div class="logo">
+      💊
+    </div>
+
+    <div>
+
+      <div class="logo-title">
+
+        Smart Medicine Safety
+
+        <span class="live-badge">
+          LIVE DRUG AI
+        </span>
+
+      </div>
+
+      <div class="subtitle">
+        Because no patient should get hurt by the medicine that was supposed to help them.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- HEADER RIGHT -->
+
+  <div class="header-right">
+
+    <button class="allergy-btn">
+      ⚠️ Allergies (2)
+    </button>
+
+    <!-- LOGIN -->
+
+    <button
+      id="loginBtn"
+      class="login-btn"
+    >
+      Login
+    </button>
+
+
+    <!-- REGISTER -->
+
+    <button
+      id="registerBtn"
+      class="register-btn"
+    >
+      Register
+    </button>
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+  <div class="hero-badge">
+    ✨ Patient-First Digital Health Safety Engine
+  </div>
+
+  <h1>
+    Smart Drug Interaction Checker
+  </h1>
+
+  <p>
+    Enter medications by brand or generic name.
+    Search medicines such as Paracetamol, Crocin, Warfarin,
+    or even common spelling mistakes like "paracetmol".
+    Select medicines to build your personal medication list.
+  </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<div class="search-wrapper">
+
+  <div class="search-box">
+
+    <div class="search-icon">
+      🔍
+    </div>
+
+    <input
+      id="medicineSearch"
+      class="search-input"
+      type="text"
+      placeholder="Search medication by brand or generic name..."
+      autocomplete="off"
+    >
+
+  </div>
+
+
+  <!-- MEDICINE DROPDOWN -->
+
+  <div
+    id="dropdown"
+    class="dropdown"
+  ></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+  <!-- ===================================================
+       ACTIVE MEDICATION LIST
+  ==================================================== -->
+
+  <section class="card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <div class="card-icon">
+          💊
+        </div>
+
+        <div>
+
+          <h2>
+
+            My Active Medication List
+
+            <span
+              id="countBadge"
+              class="count-badge"
+            >
+              0 Selected
+            </span>
+
+          </h2>
+
+          <p>
+            Medicines currently in your safety checking drawer
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="clearBtn"
+        class="clear-btn"
+      >
+        🗑 Clear All
+      </button>
+
+    </div>
+
+
+    <div
+      id="medicineList"
+      class="medicine-list"
+    >
+
+      <div class="empty-state">
+
+        <div class="big-icon">
+          💊
+        </div>
+
+        <p>
+          No medicines added yet.
+        </p>
+
+        <p style="font-size:12px;margin-top:5px;">
+          Search for a medicine above and click + Add
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       INTERACTION ANALYSIS
+  ==================================================== -->
+
+  <section class="card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <div class="card-icon">
+          ⚡
+        </div>
+
+        <div>
+
+          <h2>
+            Drug Interaction Analysis
+          </h2>
+
+          <p>
+            Potential interactions detected between selected medicines
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="interaction-grid">
+
+
+      <div class="interaction-card severe">
+
+        <h3>
+          🔴 Severe Interaction
+        </h3>
+
+        <p>
+          Omeprazole + Clopidogrel may reduce the effectiveness
+          of clopidogrel. Consult a healthcare professional.
+        </p>
+
+      </div>
+
+
+      <div class="interaction-card moderate">
+
+        <h3>
+          🟡 Moderate Interaction
+        </h3>
+
+        <p>
+          Lisinopril + Ibuprofen may increase the risk of kidney
+          problems and affect blood pressure.
+        </p>
+
+      </div>
+
+
+      <div class="interaction-card safe">
+
+        <h3>
+          🟢 Safety Check
+        </h3>
+
+        <p>
+          Add medicines above to perform a personalized
+          medication safety check.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       SAFETY INFORMATION
+  ==================================================== -->
+
+  <section class="card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <div class="card-icon">
+          🛡️
+        </div>
+
+        <div>
+
+          <h2>
+            Medicine Safety Information
+          </h2>
+
+          <p>
+            General information to help patients understand their medicines
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-grid">
+
+
+      <div class="info-card">
+
+        <h3>
+          💊 Medicine Name
+        </h3>
+
+        <p>
+          Search using either the brand name or generic name
+          of your medicine.
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>
+          ⚠️ Interactions
+        </h3>
+
+        <p>
+          Selected medicines can be checked for possible
+          interactions and safety concerns.
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>
+          👨‍⚕️ Professional Advice
+        </h3>
+
+        <p>
+          This application provides educational information.
+          Always consult a qualified healthcare professional
+          before changing medication.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <p>
+    Smart Medicine Safety &copy; 2026
+  </p>
+
+  <p style="margin-top:7px;">
+    This tool is for educational purposes and does not replace professional medical advice.
+  </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     LOGIN / REGISTER MODAL
+===================================================== -->
+
+<div
+  id="modalOverlay"
+  class="modal-overlay"
+>
+
+  <div class="modal">
+
+    <button
+      id="closeModal"
+      class="modal-close"
+    >
+      ×
+    </button>
+
+
+    <!-- LOGIN FORM -->
+
+    <div id="loginForm">
+
+      <h2>
+        Welcome Back
+      </h2>
+
+      <p class="modal-subtitle">
+        Login to access your medicine safety profile.
+      </p>
+
+
+      <div class="form-group">
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Enter your email"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Enter your password"
+        >
+
+      </div>
+
+
+      <button
+        id="loginSubmit"
+        class="submit-btn"
+      >
+        Login
+      </button>
+
+
+      <p class="switch-text">
+
+        Don't have an account?
+
+        <span
+          id="showRegister"
+          class="switch-link"
+        >
+          Register
+        </span>
+
+      </p>
+
+    </div>
+
+
+
+    <!-- REGISTER FORM -->
+
+    <div
+      id="registerForm"
+      style="display:none;"
+    >
+
+      <h2>
+        Create Account
+      </h2>
+
+      <p class="modal-subtitle">
+        Create your Smart Medicine Safety account.
+      </p>
+
+
+      <div class="form-group">
+
+        <label>
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="registerName"
+          placeholder="Enter your name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="Enter your email"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="Create a password"
+        >
+
+      </div>
+
+
+      <button
+        id="registerSubmit"
+        class="submit-btn"
+      >
+        Create Account
+      </button>
+
+
+      <p class="switch-text">
+
+        Already have an account?
+
+        <span
+          id="showLogin"
+          class="switch-link"
+        >
+          Login
+        </span>
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   MEDICINE DATABASE
+===================================================== */
+
+const medicines = [
+
+  {
+    id: 1,
+    name: "Paracetamol",
+    generic: "Acetaminophen",
+    strength: "500 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 2,
+    name: "Paracetamol",
+    generic: "Acetaminophen",
+    strength: "650 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 3,
+    name: "Crocin",
+    generic: "Paracetamol",
+    strength: "500 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 4,
+    name: "Dolo 650",
+    generic: "Paracetamol",
+    strength: "650 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 5,
+    name: "Ibuprofen",
+    generic: "Ibuprofen",
+    strength: "400 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 6,
+    name: "Aspirin",
+    generic: "Acetylsalicylic acid",
+    strength: "75 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 7,
+    name: "Omeprazole",
+    generic: "Omeprazole",
+    strength: "20 mg",
+    type: "Capsule"
+  },
+
+  {
+    id: 8,
+    name: "Clopidogrel",
+    generic: "Clopidogrel",
+    strength: "75 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 9,
+    name: "Lisinopril",
+    generic: "Lisinopril",
+    strength: "10 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 10,
+    name: "Warfarin",
+    generic: "Warfarin",
+    strength: "5 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 11,
+    name: "Azithromycin",
+    generic: "Azithromycin",
+    strength: "500 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 12,
+    name: "Amoxicillin",
+    generic: "Amoxicillin",
+    strength: "500 mg",
+    type: "Capsule"
+  },
+
+  {
+    id: 13,
+    name: "Cetirizine",
+    generic: "Cetirizine",
+    strength: "10 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 14,
+    name: "Metformin",
+    generic: "Metformin",
+    strength: "500 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 15,
+    name: "Atorvastatin",
+    generic: "Atorvastatin",
+    strength: "10 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 16,
+    name: "Pantoprazole",
+    generic: "Pantoprazole",
+    strength: "40 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 17,
+    name: "Levocetirizine",
+    generic: "Levocetirizine",
+    strength: "5 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 18,
+    name: "Diclofenac",
+    generic: "Diclofenac",
+    strength: "50 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 19,
+    name: "Losartan",
+    generic: "Losartan",
+    strength: "50 mg",
+    type: "Tablet"
+  },
+
+  {
+    id: 20,
+    name: "Amlodipine",
+    generic: "Amlodipine",
+    strength: "5 mg",
+    type: "Tablet"
+  }
+
+];
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let selectedMedicines = [];
+
+
+
+/* =====================================================
+   DOM ELEMENTS
+===================================================== */
+
+const searchInput =
+  document.getElementById("medicineSearch");
+
+const dropdown =
+  document.getElementById("dropdown");
+
+const medicineList =
+  document.getElementById("medicineList");
+
+const countBadge =
+  document.getElementById("countBadge");
+
+const clearBtn =
+  document.getElementById("clearBtn");
+
+
+
+/* =====================================================
+   MEDICINE SEARCH
+===================================================== */
+
+searchInput.addEventListener(
+  "input",
+  function () {
+
+    const searchValue =
+      searchInput.value
+        .toLowerCase()
+        .trim();
+
+
+    if (searchValue === "") {
+
+      dropdown.classList.remove("show");
+
+      dropdown.innerHTML = "";
+
+      return;
+
+    }
+
+
+    const results =
+      medicines.filter(
+        function (medicine) {
+
+          return (
+
+            medicine.name
+              .toLowerCase()
+              .includes(searchValue)
+
+            ||
+
+            medicine.generic
+              .toLowerCase()
+              .includes(searchValue)
+
+            ||
+
+            medicine.strength
+              .toLowerCase()
+              .includes(searchValue)
+
+          );
+
+        }
+      );
+
+
+    displayDropdown(results);
+
+  }
+);
+
+
+
+/* =====================================================
+   DISPLAY MEDICINE DROPDOWN
+===================================================== */
+
+function displayDropdown(results) {
+
+  dropdown.innerHTML = "";
+
+
+  if (results.length === 0) {
+
+    dropdown.innerHTML = `
+
+      <div class="no-results">
+
+        <div class="no-results-icon">
+          🔍
+        </div>
+
+        <strong>
+          No medicine found
+        </strong>
+
+        <p style="font-size:12px;margin-top:5px;">
+          Try another medicine name
+        </p>
+
+      </div>
+
+    `;
+
+    dropdown.classList.add("show");
+
+    return;
+
+  }
+
+
+  results
+    .slice(0, 8)
+    .forEach(
+      function (medicine) {
+
+
+        const alreadyAdded =
+          selectedMedicines.some(
+            function (item) {
+
+              return item.id === medicine.id;
+
+            }
+          );
+
+
+        const resultDiv =
+          document.createElement("div");
+
+        resultDiv.className =
+          "medicine-result";
+
+
+        resultDiv.innerHTML = `
+
+          <div class="medicine-info">
+
+            <div class="medicine-icon">
+              💊
+            </div>
+
+            <div>
+
+              <div class="medicine-name">
+                ${medicine.name}
+              </div>
+
+              <div class="medicine-details">
+                ${medicine.generic}
+                •
+                ${medicine.strength}
+                •
+                ${medicine.type}
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="add-btn ${alreadyAdded ? "added" : ""}"
+            ${alreadyAdded ? "disabled" : ""}
+          >
+
+            ${
+              alreadyAdded
+              ? "Added ✓"
+              : "+ Add"
+            }
+
+          </button>
+
+        `;
+
+
+        const addButton =
+          resultDiv.querySelector(".add-btn");
+
+
+        if (!alreadyAdded) {
+
+          addButton.addEventListener(
+            "click",
+            function () {
+
+              addMedicine(medicine);
+
+            }
+          );
+
+        }
+
+
+        dropdown.appendChild(resultDiv);
+
+      }
+    );
+
+
+  dropdown.classList.add("show");
+
+}
+
+
+
+/* =====================================================
+   ADD MEDICINE
+===================================================== */
+
+function addMedicine(medicine) {
+
+  const exists =
+    selectedMedicines.some(
+      function (item) {
+
+        return item.id === medicine.id;
+
+      }
+    );
+
+
+  if (exists) {
+    return;
+  }
+
+
+  selectedMedicines.push(medicine);
+
+
+  searchInput.value = "";
+
+  dropdown.innerHTML = "";
+
+  dropdown.classList.remove("show");
+
+
+  renderSelectedMedicines();
+
+}
+
+
+
+/* =====================================================
+   REMOVE MEDICINE
+===================================================== */
+
+function removeMedicine(id) {
+
+  selectedMedicines =
+    selectedMedicines.filter(
+      function (medicine) {
+
+        return medicine.id !== id;
+
+      }
+    );
+
+
+  renderSelectedMedicines();
+
+}
+
+
+
+/* =====================================================
+   RENDER SELECTED MEDICINES
+===================================================== */
+
+function renderSelectedMedicines() {
+
+  countBadge.textContent =
+    selectedMedicines.length +
+    " Selected";
+
+
+  if (selectedMedicines.length === 0) {
+
+    medicineList.innerHTML = `
+
+      <div class="empty-state">
+
+        <div class="big-icon">
+          💊
+        </div>
+
+        <p>
+          No medicines added yet.
+        </p>
+
+        <p style="font-size:12px;margin-top:5px;">
+          Search for a medicine above and click + Add
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  medicineList.innerHTML = "";
+
+
+  selectedMedicines.forEach(
+    function (medicine) {
+
+      const medicineDiv =
+        document.createElement("div");
+
+      medicineDiv.className =
+        "selected-medicine";
+
+
+      medicineDiv.innerHTML = `
+
+        <div class="selected-left">
+
+          <div class="selected-icon">
+            💊
+          </div>
+
+          <div>
+
+            <div class="selected-name">
+              ${medicine.name}
+            </div>
+
+            <div class="selected-details">
+              ${medicine.generic}
+              •
+              ${medicine.strength}
+              •
+              ${medicine.type}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="remove-btn"
+          onclick="removeMedicine(${medicine.id})"
+        >
+          Remove
+        </button>
+
+      `;
+
+
+      medicineList.appendChild(medicineDiv);
+
+    }
+  );
+
+}
+
+
+
+/* =====================================================
+   CLEAR ALL
+===================================================== */
+
+clearBtn.addEventListener(
+  "click",
+  function () {
+
+    selectedMedicines = [];
+
+    renderSelectedMedicines();
+
+  }
+);
+
+
+
+/* =====================================================
+   CLOSE DROPDOWN OUTSIDE SEARCH
+===================================================== */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    const searchWrapper =
+      document.querySelector(".search-wrapper");
+
+
+    if (!searchWrapper.contains(event.target)) {
+
+      dropdown.classList.remove("show");
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   LOGIN / REGISTER MODAL
+===================================================== */
+
+const modalOverlay =
+  document.getElementById("modalOverlay");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const registerBtn =
+  document.getElementById("registerBtn");
+
+const closeModal =
+  document.getElementById("closeModal");
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const registerForm =
+  document.getElementById("registerForm");
+
+const showRegister =
+  document.getElementById("showRegister");
+
+const showLogin =
+  document.getElementById("showLogin");
+
+
+
+/* =====================================================
+   OPEN LOGIN
+===================================================== */
+
+loginBtn.addEventListener(
+  "click",
+  function () {
+
+    loginForm.style.display = "block";
+
+    registerForm.style.display = "none";
+
+    modalOverlay.classList.add("show");
+
+  }
+);
+
+
+
+/* =====================================================
+   OPEN REGISTER
+===================================================== */
+
+registerBtn.addEventListener(
+  "click",
+  function () {
+
+    loginForm.style.display = "none";
+
+    registerForm.style.display = "block";
+
+    modalOverlay.classList.add("show");
+
+  }
+);
+
+
+
+/* =====================================================
+   SWITCH LOGIN → REGISTER
+===================================================== */
+
+showRegister.addEventListener(
+  "click",
+  function () {
+
+    loginForm.style.display = "none";
+
+    registerForm.style.display = "block";
+
+  }
+);
+
+
+
+/* =====================================================
+   SWITCH REGISTER → LOGIN
+===================================================== */
+
+showLogin.addEventListener(
+  "click",
+  function () {
+
+    registerForm.style.display = "none";
+
+    loginForm.style.display = "block";
+
+  }
+);
+
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+closeModal.addEventListener(
+  "click",
+  function () {
+
+    modalOverlay.classList.remove("show");
+
+  }
+);
+
+
+
+/* =====================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+===================================================== */
+
+modalOverlay.addEventListener(
+  "click",
+  function (event) {
+
+    if (event.target === modalOverlay) {
+
+      modalOverlay.classList.remove("show");
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   LOGIN DEMO
+===================================================== */
+
+document
+  .getElementById("loginSubmit")
+  .addEventListener(
+    "click",
+    function () {
+
+      const email =
+        document.getElementById("loginEmail").value;
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+
+      if (!email || !password) {
+
+        alert(
+          "Please enter your email and password."
+        );
+
+        return;
+
+      }
+
+
+      alert(
+        "Login successful! (Demo)"
+      );
+
+      modalOverlay.classList.remove("show");
+
+    }
+  );
+
+
+
+/* =====================================================
+   REGISTER DEMO
+===================================================== */
+
+document
+  .getElementById("registerSubmit")
+  .addEventListener(
+    "click",
+    function () {
+
+      const name =
+        document.getElementById("registerName").value;
+
+      const email =
+        document.getElementById("registerEmail").value;
+
+      const password =
+        document.getElementById("registerPassword").value;
+
+
+      if (!name || !email || !password) {
+
+        alert(
+          "Please fill all the fields."
+        );
+
+        return;
+
+      }
+
+
+      alert(
+        "Account created successfully! (Demo)"
+      );
+
+
+      modalOverlay.classList.remove("show");
+
+
+      document.getElementById("registerName").value = "";
+
+      document.getElementById("registerEmail").value = "";
+
+      document.getElementById("registerPassword").value = "";
+
+    }
+  );
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+renderSelectedMedicines();
+
+</script>
+
+</body>
+</html>
