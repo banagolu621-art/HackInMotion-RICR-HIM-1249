@@ -5,4 +5,4 @@ pydantic
 email-validator
 passlib[bcrypt]
 bcrypt
-request
+requests
