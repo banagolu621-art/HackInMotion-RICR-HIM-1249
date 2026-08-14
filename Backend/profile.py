@@ -1,18 +1,14 @@
 import os
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from models import Medicine, Prescription, User
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
 from database import get_db
-from models import User, Medicine, Prescription
 
-
-router = APIRouter(
-    prefix="/api/profile",
-    tags=["Profile"]
-)
+router = APIRouter(prefix="/api/profile", tags=["Profile"])
 
 
 UPLOAD_DIR = "uploads/prescriptions"
@@ -34,21 +30,12 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 # ============================================================
 
 
-def get_user(
-    user_id: int,
-    db: Session
-):
+def get_user(user_id: int, db: Session):
 
-    user = db.query(User).filter(
-        User.id == user_id
-    ).first()
+    user = db.query(User).filter(User.id == user_id).first()
 
     if not user:
-
-        raise HTTPException(
-            status_code=404,
-            detail="User not found"
-        )
+        raise HTTPException(status_code=404, detail="User not found")
 
     return user
 
@@ -59,7 +46,6 @@ def get_user(
 
 
 class MedicineRequest(BaseModel):
-
     user_id: int
     name: str
     dosage: str | None = None
@@ -69,36 +55,20 @@ class MedicineRequest(BaseModel):
 
 
 @router.post("/medicines")
-def add_medicine(
-    medicine: MedicineRequest,
-    db: Session = Depends(get_db)
-):
+def add_medicine(medicine: MedicineRequest, db: Session = Depends(get_db)):
 
-    user = get_user(
-        medicine.user_id,
-        db
-    )
+    user = get_user(medicine.user_id, db)
 
     if not medicine.name.strip():
-
-        raise HTTPException(
-            status_code=400,
-            detail="Medicine name is required"
-        )
+        raise HTTPException(status_code=400, detail="Medicine name is required")
 
     new_medicine = Medicine(
-
         user_id=user.id,
-
         name=medicine.name.strip(),
-
         dosage=medicine.dosage,
-
         frequency=medicine.frequency,
-
         start_date=medicine.start_date,
-
-        end_date=medicine.end_date
+        end_date=medicine.end_date,
     )
 
     db.add(new_medicine)
@@ -108,25 +78,16 @@ def add_medicine(
     db.refresh(new_medicine)
 
     return {
-
         "success": True,
-
         "message": "Medicine added successfully",
-
         "medicine": {
-
             "id": new_medicine.id,
-
             "name": new_medicine.name,
-
             "dosage": new_medicine.dosage,
-
             "frequency": new_medicine.frequency,
-
             "start_date": new_medicine.start_date,
-
-            "end_date": new_medicine.end_date
-        }
+            "end_date": new_medicine.end_date,
+        },
     }
 
 
@@ -136,46 +97,30 @@ def add_medicine(
 
 
 @router.get("/medicines/{user_id}")
-def get_medicines(
-    user_id: int,
-    db: Session = Depends(get_db)
-):
+def get_medicines(user_id: int, db: Session = Depends(get_db)):
 
-    get_user(
-        user_id,
-        db
+    get_user(user_id, db)
+
+    medicines = (
+        db.query(Medicine)
+        .filter(Medicine.user_id == user_id)
+        .order_by(Medicine.created_at.desc())
+        .all()
     )
 
-    medicines = db.query(Medicine).filter(
-        Medicine.user_id == user_id
-    ).order_by(
-        Medicine.created_at.desc()
-    ).all()
-
     return {
-
         "success": True,
-
         "medicines": [
-
             {
-
                 "id": medicine.id,
-
                 "name": medicine.name,
-
                 "dosage": medicine.dosage,
-
                 "frequency": medicine.frequency,
-
                 "start_date": medicine.start_date,
-
-                "end_date": medicine.end_date
-
+                "end_date": medicine.end_date,
             }
-
             for medicine in medicines
-        ]
+        ],
     }
 
 
@@ -185,38 +130,22 @@ def get_medicines(
 
 
 @router.delete("/medicines/{medicine_id}")
-def delete_medicine(
-    medicine_id: int,
-    user_id: int,
-    db: Session = Depends(get_db)
-):
+def delete_medicine(medicine_id: int, user_id: int, db: Session = Depends(get_db)):
 
-    medicine = db.query(Medicine).filter(
-
-        Medicine.id == medicine_id,
-
-        Medicine.user_id == user_id
-
-    ).first()
+    medicine = (
+        db.query(Medicine)
+        .filter(Medicine.id == medicine_id, Medicine.user_id == user_id)
+        .first()
+    )
 
     if not medicine:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Medicine not found"
-        )
+        raise HTTPException(status_code=404, detail="Medicine not found")
 
     db.delete(medicine)
 
     db.commit()
 
-    return {
-
-        "success": True,
-
-        "message": "Medicine deleted successfully"
-
-    }
+    return {"success": True, "message": "Medicine deleted successfully"}
 
 
 # ============================================================
@@ -226,86 +155,43 @@ def delete_medicine(
 
 @router.post("/prescriptions/upload")
 async def upload_prescription(
-
     user_id: int = Form(...),
-
     file: UploadFile = File(...),
-
-    db: Session = Depends(get_db)
-
+    db: Session = Depends(get_db),
 ):
 
-    get_user(
-        user_id,
-        db
-    )
+    get_user(user_id, db)
 
-    allowed_extensions = {
-
-        ".jpg",
-        ".jpeg",
-        ".png",
-        ".pdf"
-    }
+    allowed_extensions = {".jpg", ".jpeg", ".png", ".pdf"}
 
     original_filename = file.filename or ""
 
-    extension = os.path.splitext(
-        original_filename
-    )[1].lower()
+    extension = os.path.splitext(original_filename)[1].lower()
 
     if extension not in allowed_extensions:
-
         raise HTTPException(
-
-            status_code=400,
-
-            detail="Only JPG, JPEG, PNG and PDF files are allowed"
-
+            status_code=400, detail="Only JPG, JPEG, PNG and PDF files are allowed"
         )
 
-    unique_filename = (
+    unique_filename = str(uuid.uuid4()) + extension
 
-        str(uuid.uuid4())
-
-        + extension
-    )
-
-    file_path = os.path.join(
-
-        UPLOAD_DIR,
-
-        unique_filename
-    )
+    file_path = os.path.join(UPLOAD_DIR, unique_filename)
 
     contents = await file.read()
 
     max_size = 10 * 1024 * 1024
 
     if len(contents) > max_size:
-
-        raise HTTPException(
-
-            status_code=400,
-
-            detail="File size must be less than 10 MB"
-
-        )
+        raise HTTPException(status_code=400, detail="File size must be less than 10 MB")
 
     with open(file_path, "wb") as buffer:
-
         buffer.write(contents)
 
     prescription = Prescription(
-
         user_id=user_id,
-
         filename=original_filename,
-
         file_path=file_path,
-
-        extracted_text=None
-
+        extracted_text=None,
     )
 
     db.add(prescription)
@@ -315,21 +201,13 @@ async def upload_prescription(
     db.refresh(prescription)
 
     return {
-
         "success": True,
-
         "message": "Prescription uploaded successfully",
-
         "prescription": {
-
             "id": prescription.id,
-
             "filename": prescription.filename,
-
-            "uploaded_at": prescription.uploaded_at
-
-        }
-
+            "uploaded_at": prescription.uploaded_at,
+        },
     }
 
 
@@ -339,49 +217,25 @@ async def upload_prescription(
 
 
 @router.get("/prescriptions/{user_id}")
-def get_prescriptions(
+def get_prescriptions(user_id: int, db: Session = Depends(get_db)):
 
-    user_id: int,
+    get_user(user_id, db)
 
-    db: Session = Depends(get_db)
-
-):
-
-    get_user(
-        user_id,
-        db
+    prescriptions = (
+        db.query(Prescription)
+        .filter(Prescription.user_id == user_id)
+        .order_by(Prescription.uploaded_at.desc())
+        .all()
     )
 
-    prescriptions = db.query(
-        Prescription
-    ).filter(
-
-        Prescription.user_id == user_id
-
-    ).order_by(
-
-        Prescription.uploaded_at.desc()
-
-    ).all()
-
     return {
-
         "success": True,
-
         "prescriptions": [
-
             {
-
                 "id": prescription.id,
-
                 "filename": prescription.filename,
-
-                "uploaded_at": prescription.uploaded_at
-
+                "uploaded_at": prescription.uploaded_at,
             }
-
             for prescription in prescriptions
-
-        ]
-
+        ],
     }
