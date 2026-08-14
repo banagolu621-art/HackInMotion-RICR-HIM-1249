@@ -3,3 +3,6 @@
 *.db
 venv/
 .env
+
+backend/__pycache__/
+backend/uploads/

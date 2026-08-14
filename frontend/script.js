@@ -3,7 +3,7 @@
    COMPLETE FRONTEND CONTROLLER
 ========================================================= */
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:5000";
 
 let currentUser = null;
 let selectedMedicines = [];
@@ -2711,7 +2711,7 @@ if (uploadPrescriptionBtn) {
 
 
             const storedUser =
-                localStorage.getItem("user");
+                localStorage.getItem("smartMedicineUser");
 
 
             if (!storedUser) {
