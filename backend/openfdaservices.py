@@ -1,6 +1,9 @@
 import os
 import requests
 from urllib.parse import quote
+from dotenv import load_dotenv
+
+load_dotenv()
 
 FDA_BASE_URL = "https://api.fda.gov/drug/label.json"
 

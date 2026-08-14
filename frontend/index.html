@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -9,6 +8,11 @@
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Smart Medicine Safety and Drug Interaction Assistant"
     >
 
     <title>
@@ -26,36 +30,165 @@
 <body>
 
 
-<!-- NAVBAR -->
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
 <header class="navbar">
 
-    <div class="logo">
-        💊 Smart Medicine
+    <div
+        class="brand"
+        onclick="scrollToSection('home')"
+    >
+
+        <div class="brand-logo">
+            💊
+        </div>
+
+        <div class="brand-text">
+
+            <strong>
+                Smart Medicine
+            </strong>
+
+            <span>
+                Safety Assistant
+            </span>
+
+        </div>
+
     </div>
 
 
-    <nav>
+    <nav class="nav-links">
 
-    
+        <a href="#home">
+            Home
+        </a>
 
         <a href="#search-section">
             Search
         </a>
 
-        <a
-            href="login.html"
-            id="loginNav"
-        >
-            Login
+        <a href="#interaction-section">
+            Interactions
         </a>
 
-        <a
-            href="signup.html"
-            class="signup-btn"
+        <a href="#safety-section">
+            Safety
+        </a>
+
+
+        <!-- LOGIN -->
+
+        <button
+            id="loginNav"
+            class="nav-login"
+            type="button"
+        >
+            Login
+        </button>
+
+
+        <!-- SIGN UP -->
+
+        <button
+            id="signupNav"
+            class="nav-signup"
+            type="button"
         >
             Sign Up
-        </a>
+        </button>
+
+
+        <!-- LOGGED-IN PROFILE -->
+
+        <div
+            id="userProfileNav"
+            class="user-profile-nav"
+            style="display:none;"
+        >
+
+            <button
+                id="profileButton"
+                class="profile-button"
+                type="button"
+            >
+
+                <span
+                    id="profileAvatar"
+                    class="profile-avatar"
+                >
+                    👤
+                </span>
+
+                <span
+                    id="profileName"
+                    class="profile-name"
+                >
+                    User
+                </span>
+
+                <span class="profile-arrow">
+                    ▾
+                </span>
+
+            </button>
+
+
+            <div
+                id="profileDropdown"
+                class="profile-dropdown"
+            >
+
+                <div class="profile-dropdown-header">
+
+                    <div
+                        id="dropdownAvatar"
+                        class="dropdown-avatar"
+                    >
+                        👤
+                    </div>
+
+                    <div>
+
+                        <strong
+                            id="dropdownName"
+                        >
+                            User
+                        </strong>
+
+                        <span
+                            id="dropdownEmail"
+                        >
+                            user@example.com
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="viewProfileBtn"
+                    class="profile-menu-item"
+                    type="button"
+                >
+                    👤 My Medicine Profile
+                </button>
+
+
+                <button
+                    id="signOutBtn"
+                    class="profile-menu-item signout-item"
+                    type="button"
+                >
+                    ↪ Sign Out
+                </button>
+
+            </div>
+
+        </div>
 
     </nav>
 
@@ -63,60 +196,96 @@
 
 
 
-<!-- HERO -->
+<!-- =====================================================
+     HOME / HERO
+===================================================== -->
 
-<section class="hero">
+<section
+    id="home"
+    class="hero"
+>
 
-    <div class="hero-card">
+    <div class="hero-background-glow"></div>
 
-        <div class="hero-content">
+    <div class="hero-content">
 
-            <div class="eyebrow">
-                SMART MEDICINE SAFETY ASSISTANT
+        <div class="hero-badge">
+            🛡️ PATIENT-FIRST DIGITAL HEALTH SAFETY
+        </div>
+
+
+        <h1>
+
+            Understand Your Medicine
+            <span>
+                Before You Take It
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            Search medicines, understand safety information,
+            and check potential drug interactions from one
+            intelligent patient-friendly platform.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <button
+                id="heroSearchBtn"
+                class="primary-btn"
+                type="button"
+            >
+                🔎 Search Medicine
+            </button>
+
+            <button
+                id="heroInteractionBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                ⚕️ Check Interaction
+            </button>
+
+        </div>
+
+
+        <div class="hero-stats">
+
+            <div>
+                <strong>
+                    RxNorm
+                </strong>
+
+                <span>
+                    Medicine Search
+                </span>
             </div>
 
 
-            <h1>
-                Understand Your Medicine
-                Before You Take It
-            </h1>
+            <div>
+                <strong>
+                    openFDA
+                </strong>
+
+                <span>
+                    Safety Information
+                </span>
+            </div>
 
 
-            <p>
+            <div>
+                <strong>
+                    AI Ready
+                </strong>
 
-                Search a medicine by name,
-                check its safety information,
-                and review possible interactions
-                from one patient-friendly platform.
-
-            </p>
-
-
-            <div class="hero-buttons">
-
-                <button
-                    id="searchBtn"
-                    class="pill-btn"
-                >
-                    🔎 Search medicines
-                </button>
-
-
-                <button
-                    id="interactionBtn"
-                    class="pill-btn"
-                >
-                    ⚕️ Check interactions
-                </button>
-
-
-                <button
-                    id="safetyBtn"
-                    class="pill-btn"
-                >
-                    🛡️ Safety information
-                </button>
-
+                <span>
+                    Smart Assistance
+                </span>
             </div>
 
         </div>
@@ -127,30 +296,112 @@
 
 
 
-<!-- IMAGE -->
+<!-- =====================================================
+     QUICK FEATURES
+===================================================== -->
 
-<section class="image-container">
+<section class="quick-features">
 
-    <img
-        src="a.jpg"
-        alt="Medicine safety"
-    >
+    <div class="feature-mini">
+
+        <div class="mini-icon blue">
+            🔎
+        </div>
+
+        <div>
+
+            <strong>
+                Medicine Search
+            </strong>
+
+            <span>
+                Powered by RxNorm
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-mini">
+
+        <div class="mini-icon red">
+            ⚠️
+        </div>
+
+        <div>
+
+            <strong>
+                Interaction Check
+            </strong>
+
+            <span>
+                Compare two medicines
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-mini">
+
+        <div class="mini-icon green">
+            🛡️
+        </div>
+
+        <div>
+
+            <strong>
+                FDA Safety
+            </strong>
+
+            <span>
+                Powered by openFDA
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-mini">
+
+        <div class="mini-icon purple">
+            👤
+        </div>
+
+        <div>
+
+            <strong>
+                Personal Profile
+            </strong>
+
+            <span>
+                Keep your medicines organized
+            </span>
+
+        </div>
+
+    </div>
 
 </section>
 
 
 
-<!-- SEARCH -->
+<!-- =====================================================
+     SEARCH MEDICINE
+===================================================== -->
 
 <section
     id="search-section"
-    class="feature-section"
+    class="section"
 >
 
-    <div class="section-title">
+    <div class="section-heading">
 
-        <span>
-            REAL-TIME SEARCH
+        <span class="section-label">
+            RXNORM MEDICINE DATABASE
         </span>
 
         <h2>
@@ -158,23 +409,35 @@
         </h2>
 
         <p>
-            Search thousands of medicines
-            using RxNorm.
+            Search by generic name, brand name,
+            or common medicine name.
         </p>
 
     </div>
 
 
-    <div class="search-container">
+    <div class="search-card">
 
-        <input
-            id="medicineSearch"
+        <div class="search-input-wrapper">
+
+            <span class="search-input-icon">
+                🔎
+            </span>
+
+            <input
             type="text"
-            placeholder="Search medicine e.g. paracetamol"
-        >
+            id="medicineSearch"
+            placeholder="Search medicine, e.g. Paracetamol..."
+            autocomplete="off"
+>
+
+        </div>
+
 
         <button
             id="medicineSearchBtn"
+            class="primary-btn search-button"
+            type="button"
         >
             Search
         </button>
@@ -190,23 +453,117 @@
 
     <div
         id="searchResults"
-        class="results"
+        class="results-grid"
     ></div>
 
 </section>
 
 
 
-<!-- INTERACTION -->
+<!-- =====================================================
+     PERSONAL MEDICINE LIST
+===================================================== -->
+
+<section
+    id="medicine-profile-section"
+    class="section"
+>
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            PERSONAL MEDICATION PROFILE
+        </span>
+
+        <h2>
+            My Medicines
+        </h2>
+
+        <p>
+            Medicines you add are shown in your personal profile.
+        </p>
+
+    </div>
+
+
+    <div class="medicine-profile-card">
+
+        <div class="profile-card-top">
+
+            <div>
+
+                <div class="profile-card-icon">
+                    💊
+                </div>
+
+                <div>
+
+                    <h3>
+                        My Active Medicines
+                    </h3>
+
+                    <p>
+                        Your selected medicines for quick reference.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="clearMedicinesBtn"
+                class="clear-btn"
+                type="button"
+            >
+                Clear All
+            </button>
+
+        </div>
+
+
+        <div
+            id="medicineList"
+            class="medicine-list"
+        >
+
+            <div class="empty-profile">
+
+                <div>
+                    💊
+                </div>
+
+                <h3>
+                    No medicines added yet
+                </h3>
+
+                <p>
+                    Search for a medicine above and add it
+                    to your personal profile.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DRUG INTERACTION
+===================================================== -->
 
 <section
     id="interaction-section"
-    class="feature-section"
+    class="section section-dark"
 >
 
-    <div class="section-title">
+    <div class="section-heading light-heading">
 
-        <span>
+        <span class="section-label">
             DRUG INTERACTION ENGINE
         </span>
 
@@ -215,113 +572,752 @@
         </h2>
 
         <p>
-            Enter two medicines to check
-            available interaction information.
+            Compare two medicines and review available
+            interaction information.
         </p>
 
     </div>
 
 
-    <div class="interaction-form">
+    <div class="interaction-card">
 
-        <input
-            id="drug1"
-            type="text"
-            placeholder="Medicine 1"
+        <div class="interaction-inputs">
+
+            <div class="input-group">
+
+                <label>
+                    Medicine 1
+                </label>
+
+                <input
+                    id="drug1"
+                    type="text"
+                    placeholder="e.g. Warfarin"
+                >
+
+            </div>
+
+
+            <div class="interaction-symbol">
+                +
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Medicine 2
+                </label>
+
+                <input
+                    id="drug2"
+                    type="text"
+                    placeholder="e.g. Ibuprofen"
+                >
+
+            </div>
+
+
+            <button
+                id="checkInteractionBtn"
+                class="danger-btn"
+                type="button"
+            >
+                Check Interaction
+            </button>
+
+        </div>
+
+
+        <div
+            id="interactionResult"
+            class="interaction-result"
         >
 
+            <div class="result-placeholder">
 
-        <input
-            id="drug2"
-            type="text"
-            placeholder="Medicine 2"
-        >
+                <span>
+                    ⚕️
+                </span>
 
+                <p>
+                    Enter two medicines to check
+                    available interaction information.
+                </p>
 
-        <button
-            id="checkInteractionBtn"
-        >
-            Check Interaction
-        </button>
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div
-        id="interactionResult"
-        class="result-box"
-    ></div>
 
 </section>
 
 
 
-<!-- SAFETY -->
+<!-- =====================================================
+     SAFETY INFORMATION
+===================================================== -->
 
 <section
     id="safety-section"
-    class="feature-section"
+    class="section"
 >
 
-    <div class="section-title">
+    <div class="section-heading">
 
-        <span>
-            OPENFDA
+        <span class="section-label">
+            OPENFDA DRUG SAFETY
         </span>
 
         <h2>
-            Safety Information
+            Medicine Safety Information
         </h2>
 
         <p>
-            Retrieve available FDA
-            medicine labeling information.
+            Review available FDA drug-label information.
         </p>
 
     </div>
 
 
-    <div class="search-container">
+    <div class="safety-card">
 
-        <input
-            id="safetyMedicine"
-            type="text"
-            placeholder="Medicine name e.g. ibuprofen"
+        <div class="safety-search">
+
+            <div class="search-input-wrapper">
+
+                <span class="search-input-icon">
+                    🛡️
+                </span>
+
+                <input
+                    id="safetyMedicine"
+                    type="text"
+                    placeholder="Enter medicine name"
+                >
+
+            </div>
+
+
+            <button
+                id="safetyBtnPage"
+                class="primary-btn"
+                type="button"
+            >
+                Check Safety
+            </button>
+
+        </div>
+
+
+        <div
+            id="safetyResult"
+            class="safety-result"
         >
 
+            <div class="result-placeholder">
 
-        <button
-            id="safetyBtnPage"
-        >
-            Get Safety Info
-        </button>
+                <span>
+                    🛡️
+                </span>
+
+                <p>
+                    Search a medicine to view available
+                    safety information.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div
-        id="safetyResult"
-        class="result-box"
-    ></div>
 
 </section>
 
 
 
-<footer>
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="how-section">
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            SIMPLE • FAST • PATIENT FRIENDLY
+        </span>
+
+        <h2>
+            How Smart Medicine Safety Works
+        </h2>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <h3>
+                Search
+            </h3>
+
+            <p>
+                Search for a medicine using its
+                generic or brand name.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <h3>
+                Review
+            </h3>
+
+            <p>
+                Review medicine information and
+                available safety data.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <h3>
+                Check
+            </h3>
+
+            <p>
+                Compare two medicines for possible
+                interaction information.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                04
+            </div>
+
+            <h3>
+                Organize
+            </h3>
+
+            <p>
+                Add medicines to your personal
+                medication profile.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LOGIN / REGISTER MODAL
+===================================================== -->
+
+<div
+    id="authModal"
+    class="modal-overlay"
+>
+
+    <div class="auth-modal">
+
+        <button
+            id="closeAuthModal"
+            class="modal-close"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <!-- LOGIN -->
+
+        <div
+            id="loginContainer"
+            class="auth-container"
+        >
+
+            <div class="auth-icon">
+                🔐
+            </div>
+
+            <span class="auth-label">
+                SMART MEDICINE ACCOUNT
+            </span>
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p>
+                Login to access your personal
+                medicine profile.
+            </p>
+
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        id="loginPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <div
+                id="loginMessage"
+                class="auth-message"
+            ></div>
+
+
+            <p class="auth-switch">
+
+                Don't have an account?
+
+                <button 
+                id="switchToSignUp" 
+                type="button" 
+>
+                 Sign Up
+                </button>
+            </p>
+
+        </div>
+
+
+
+        <!-- REGISTER -->
+
+        <div
+    
+             id="signupContainer" 
+             class="auth-container" 
+           style="display:none;" 
+>
+        >
+
+            <div class="auth-icon">
+                🩺
+            </div>
+
+            <span class="auth-label">
+                CREATE YOUR PROFILE
+            </span>
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p>
+                Create your Smart Medicine Safety profile.
+            </p>
+
+            <form id="signupForm">
+
+                <div class="input-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        id="signupName"
+                        type="text"
+                        placeholder="Your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        id="signupEmail"
+                        type="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        id="signupPassword"
+                        type="password"
+                        placeholder="Create a password"
+                        minlength="6"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <div
+                id="signupMessage"
+                class="auth-message"
+            ></div>
+
+
+            <p class="auth-switch">
+
+                Already have an account?
+
+                <button
+                    id="switchToLogin"
+                    type="button"
+                >
+                    Login
+                </button>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    id="profileModal"
+    class="modal-overlay"
+>
+
+    <div class="profile-modal">
+
+        <button
+            id="closeProfileModal"
+            class="modal-close"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <div class="profile-header">
+
+            <div
+                id="largeProfileAvatar"
+                class="large-profile-avatar"
+            >
+                👤
+            </div>
+
+            <div>
+
+                <span>
+                    PERSONAL PROFILE
+                </span>
+
+                <h2 id="profileModalName">
+                    User
+                </h2>
+
+                <p id="profileModalEmail">
+                    user@example.com
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-info-grid">
+
+            <div class="profile-info-box">
+
+                <span>
+                    Account
+                </span>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-box">
+
+                <span>
+                    Medicines
+                </span>
+
+                <strong id="profileMedicineCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="profile-medicines">
 
     <h3>
-        Smart Medicine Safety
+        💊 My Medicine Details
     </h3>
 
     <p>
-        Smart Medicine Safety & Drug Interaction Assistant
+        Medicines you have added to your personal
+        medication profile.
     </p>
 
-    <small>
-        Educational information only.
-        Always consult a qualified healthcare professional.
-    </small>
+
+    <!-- ==========================================
+         ADD MEDICINE
+    =========================================== -->
+
+    <button
+        id="addMedicineProfileBtn"
+        class="auth-submit"
+        type="button"
+    >
+        ➕ Add Medicine
+    </button>
+
+
+    <!-- ==========================================
+         PRESCRIPTION UPLOAD
+    =========================================== -->
+
+    <div class="prescription-upload-card">
+
+        <div class="prescription-upload-icon">
+            📋
+        </div>
+
+        <div class="prescription-upload-content">
+
+            <h3>
+                Upload Prescription
+            </h3>
+
+            <p>
+                Upload your prescription image or PDF
+                to keep it in your medicine profile.
+            </p>
+
+            <label
+                for="prescriptionFile"
+                class="prescription-upload-btn"
+            >
+                📤 Choose Prescription
+            </label>
+
+            <input
+                type="file"
+                id="prescriptionFile"
+                accept=".jpg,.jpeg,.png,.pdf"
+                hidden
+            >
+
+            <div
+                id="prescriptionFileName"
+                class="prescription-file-name"
+            ></div>
+
+            <button
+                id="uploadPrescriptionBtn"
+                class="auth-submit"
+                type="button"
+                style="display:none;"
+            >
+                Upload Prescription
+            </button>
+
+            <div
+                id="uploadStatus"
+                class="auth-message"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         SAVED PRESCRIPTIONS
+    =========================================== -->
+
+    <div class="saved-prescriptions">
+
+        <h3>
+            📄 My Prescriptions
+        </h3>
+
+        <div
+            id="prescriptionList"
+            class="prescription-list"
+        >
+
+            <p class="empty-prescriptions">
+                No prescriptions uploaded yet.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         MEDICINE LIST
+    =========================================== -->
+
+    <div
+        id="profileMedicineList"
+        class="profile-medicine-list"
+    ></div>
+
+</div>
+        
+
+        <button
+            id="profileSignOut"
+            class="profile-signout"
+            type="button"
+        >
+            ↪ Sign Out
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+
+            <div class="footer-brand">
+                💊 Smart Medicine Safety
+            </div>
+
+            <p>
+                Patient-friendly medicine information
+                and safety assistance.
+            </p>
+
+        </div>
+
+
+        <div class="footer-warning">
+
+            ⚠️
+
+            This tool is for educational and
+            informational purposes only.
+
+            Always consult a qualified healthcare
+            professional before making medication decisions.
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        Smart Medicine Safety © 2026
+
+    </div>
 
 </footer>
 

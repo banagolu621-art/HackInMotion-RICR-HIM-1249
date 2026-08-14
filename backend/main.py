@@ -1,9 +1,14 @@
+import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from rxnormservices import search_drug
 from openfdaservices import get_drug_safety
 from interactionengine import check_interaction
+from database import init_db
+
+from auth import router as auth_router
+from profile import router as profile_router
 
 
 app = FastAPI(
@@ -11,6 +16,24 @@ app = FastAPI(
     description="Real-world medicine information and safety API",
     version="1.0.0"
 )
+
+
+# ============================================================
+# DATABASE INIT
+# Creates smart_medicine.db and the users table on first run.
+# ============================================================
+
+
+
+
+# ============================================================
+# ROUTERS
+# ============================================================
+
+init_db()
+
+app.include_router(auth_router)
+app.include_router(profile_router)
 
 
 # ============================================================
@@ -157,3 +180,20 @@ def drug_interaction(
             status_code=500,
             detail=f"Interaction engine error: {str(e)}"
         )
+
+
+# ============================================================
+# ENTRY POINT
+# Runs on port 5000 to match API_BASE in script.js.
+# If you prefer `uvicorn main:app --reload` from the CLI,
+# add --port 5000 or update API_BASE in script.js instead.
+# ============================================================
+
+if __name__ == "__main__":
+
+    uvicorn.run(
+        "main:app",
+        host="127.0.0.1",
+        port=5000,
+        reload=True
+    )
