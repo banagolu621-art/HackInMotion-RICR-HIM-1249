@@ -1,0 +1,12 @@
+[33mcommit 80c8503d97310a131baf001ab2aeded1d4bb7cc0[m
+Author: Vikramaditya Bondar <vikramadityabondar24@gmail.com>
+Date:   Fri Aug 14 15:15:45 2026 +0530
+
+    Fix backend linting issues
+
+ Backend/auth.py     |  74 [32m++++[m[31m------------[m
+ Backend/database.py |  13 [32m+[m[31m--[m
+ Backend/models.py   | 136 [32m++++++++[m[31m--------------------[m
+ Backend/profile.py  | 250 [32m+++++++++++[m[31m-----------------------------------------[m
+ pyproject.toml      |   5 [32m++[m
+ 5 files changed, 115 insertions(+), 363 deletions(-)

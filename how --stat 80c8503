@@ -1,0 +1,10 @@
+[33m0d12fcb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Fix linter issues and update project
+[33mcab2777[m Save my latest changes
+[33m80c8503[m Fix backend linting issues
+[33mba05066[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix backend linting issues and add Ruff configuration
+[33m9f7937b[m Update frontend and prescription upload
+[33m18f71b6[m Add authentication and prescription upload
+[33mfaf9840[m Fix duplicate case-sensitive frontend folder
+[33m66fee5e[m Update medicine safety frontend and backend
+[33mb957ba8[m Merge branch 'main' of https://github.com/banagolu621-art/HackInMotion-RICR-HIM-1249
+[33m7952e83[m Remove unused frontend files
