@@ -1,0 +1,15 @@
+[33m80c8503[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Fix backend linting issues
+[33mba05066[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix backend linting issues and add Ruff configuration
+[33m9f7937b[m Update frontend and prescription upload
+[33m18f71b6[m Add authentication and prescription upload
+[33mfaf9840[m Fix duplicate case-sensitive frontend folder
+[33m66fee5e[m Update medicine safety frontend and backend
+[33mb957ba8[m Merge branch 'main' of https://github.com/banagolu621-art/HackInMotion-RICR-HIM-1249
+[33m7952e83[m Remove unused frontend files
+[33m87a473b[m Remove duplicate frontend HTML file
+[33mb2c90ac[m Separate frontend HTML CSS and JavaScript
+[33m01448fd[m Add complete smart medicine safety project
+[33m1150dcc[m Add index page
+[33m7d36425[m Merge branch 'main' of https://github.com/banagolu621-art/HackInMotion-RICR-HIM-1249
+[33m35fb36b[m Add project folders and files
+[33mf06968a[m Add files via upload
