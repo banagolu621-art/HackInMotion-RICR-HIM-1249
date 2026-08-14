@@ -9,7 +9,7 @@ from database import init_db
 
 from auth import router as auth_router
 from profile import router as profile_router
-
+from openfdaservices import get_medicine_suggestions
 
 app = FastAPI(
     title="Smart Medicine Safety & Drug Interaction Assistant",
@@ -196,4 +196,20 @@ if __name__ == "__main__":
         host="127.0.0.1",
         port=5000,
         reload=True
-    )
+    ) 
+
+# Existing FastAPI app setup ...
+
+@app.get("/api/suggest-medicines", tags=["Interaction Check"])
+def suggest_medicines(
+    q: str = Query(..., min_length=2, description="Type medicine name prefix, e.g., 'para'")
+):
+    """
+    Autocomplete endpoint: Jab user input text field me type karega,
+    ye top matching medicine suggestions return karega.
+    """
+    results = get_medicine_suggestions(query=q, limit=7)
+    return {
+        "query": q,
+        "suggestions": results
+    }

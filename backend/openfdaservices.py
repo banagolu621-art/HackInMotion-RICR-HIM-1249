@@ -120,3 +120,44 @@ def get_first(value):
         return value[0]
 
     return value
+
+
+def get_medicine_suggestions(query: str, limit: int = 5):
+    """
+    Search openFDA for drug brand names matching the search query.
+    Example: query="para" -> returns ["PARACETAMOL", "PARACETAMOL EXTRA", ...]
+    """
+    if not query or len(query.strip()) < 2:
+        return []
+
+    # Wildcard search using *
+    search_term = query.strip().lower()
+    url = f"https://api.fda.gov/drug/label.json?search=openfda.brand_name:{search_term}*+openfda.generic_name:{search_term}*&limit={limit}"
+
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code != 200:
+            return []
+            
+        data = response.json()
+        suggestions = set()
+
+        if "results" in data:
+            for item in data["results"]:
+                openfda = item.get("openfda", {})
+                
+                # Brand names collect karein
+                for brand in openfda.get("brand_name", []):
+                    if search_term in brand.lower():
+                        suggestions.add(brand.title())
+                        
+                # Generic names collect karein
+                for generic in openfda.get("generic_name", []):
+                    if search_term in generic.lower():
+                        suggestions.add(generic.title())
+
+        return list(suggestions)[:limit]
+
+    except Exception as e:
+        print(f"Error fetching suggestions: {e}")
+        return []
