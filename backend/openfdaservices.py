@@ -1,6 +1,6 @@
 import os
+
 import requests
-from urllib.parse import quote
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,14 +15,13 @@ def get_drug_safety(drug_name: str):
     """
 
     search_query = (
-        f'openfda.generic_name:"{drug_name}"'
-        f' OR '
-        f'openfda.brand_name:"{drug_name}"'
+        f'openfda.generic_name:"{drug_name}" '
+        f'OR openfda.brand_name:"{drug_name}"'
     )
 
     params = {
         "search": search_query,
-        "limit": 5
+        "limit": 5,
     }
 
     api_key = os.getenv("OPENFDA_API_KEY")
@@ -33,76 +32,73 @@ def get_drug_safety(drug_name: str):
     response = requests.get(
         FDA_BASE_URL,
         params=params,
-        timeout=20
+        timeout=20,
     )
 
-    # Drug not found
     if response.status_code == 404:
         return {
             "found": False,
-            "message": "No FDA drug label found for this medicine."
+            "message": "No FDA drug label found for this medicine.",
         }
 
     response.raise_for_status()
 
     data = response.json()
-
     results = data.get("results", [])
 
     if not results:
         return {
             "found": False,
-            "message": "No FDA drug label found."
+            "message": "No FDA drug label found.",
         }
 
     formatted_results = []
 
     for drug in results:
-
         openfda = drug.get("openfda", {})
 
-        formatted_results.append({
-            "brand_name": get_first(openfda.get("brand_name")),
-            "generic_name": get_first(openfda.get("generic_name")),
-            "manufacturer": get_first(openfda.get("manufacturer_name")),
-
-            "indications": get_first(
-                drug.get("indications_and_usage")
-            ),
-
-            "warnings": get_first(
-                drug.get("warnings")
-            ),
-
-            "boxed_warning": get_first(
-                drug.get("boxed_warning")
-            ),
-
-            "contraindications": get_first(
-                drug.get("contraindications")
-            ),
-
-            "adverse_reactions": get_first(
-                drug.get("adverse_reactions")
-            ),
-
-            "drug_interactions": get_first(
-                drug.get("drug_interactions")
-            ),
-
-            "pregnancy": get_first(
-                drug.get("pregnancy")
-            ),
-
-            "dosage": get_first(
-                drug.get("dosage_and_administration")
-            )
-        })
+        formatted_results.append(
+            {
+                "brand_name": get_first(
+                    openfda.get("brand_name")
+                ),
+                "generic_name": get_first(
+                    openfda.get("generic_name")
+                ),
+                "manufacturer": get_first(
+                    openfda.get("manufacturer_name")
+                ),
+                "indications": get_first(
+                    drug.get("indications_and_usage")
+                ),
+                "warnings": get_first(
+                    drug.get("warnings")
+                ),
+                "boxed_warning": get_first(
+                    drug.get("boxed_warning")
+                ),
+                "contraindications": get_first(
+                    drug.get("contraindications")
+                ),
+                "adverse_reactions": get_first(
+                    drug.get("adverse_reactions")
+                ),
+                "drug_interactions": get_first(
+                    drug.get("drug_interactions")
+                ),
+                "pregnancy": get_first(
+                    drug.get("pregnancy")
+                ),
+                "dosage": get_first(
+                    drug.get("dosage_and_administration")
+                ),
+            }
+        )
 
     return {
         "found": True,
         "count": len(formatted_results),
-        "results": formatted_results
+        "results": formatted_results,
     }
 
 
@@ -113,7 +109,6 @@ def get_first(value):
     """
 
     if isinstance(value, list):
-
         if len(value) == 0:
             return None
 
@@ -124,40 +119,61 @@ def get_first(value):
 
 def get_medicine_suggestions(query: str, limit: int = 5):
     """
-    Search openFDA for drug brand names matching the search query.
-    Example: query="para" -> returns ["PARACETAMOL", "PARACETAMOL EXTRA", ...]
+    Return medicine suggestions from openFDA based on
+    the medicine name typed by the user.
     """
-    if not query or len(query.strip()) < 2:
+
+    query = query.strip()
+
+    if not query:
         return []
 
-    # Wildcard search using *
-    search_term = query.strip().lower()
-    url = f"https://api.fda.gov/drug/label.json?search=openfda.brand_name:{search_term}*+openfda.generic_name:{search_term}*&limit={limit}"
+    search_query = (
+        f'openfda.generic_name:"{query}*" '
+        f'OR openfda.brand_name:"{query}*"'
+    )
+
+    params = {
+        "search": search_query,
+        "limit": limit,
+    }
+
+    api_key = os.getenv("OPENFDA_API_KEY")
+
+    if api_key:
+        params["api_key"] = api_key
 
     try:
-        response = requests.get(url, timeout=5)
-        if response.status_code != 200:
+        response = requests.get(
+            FDA_BASE_URL,
+            params=params,
+            timeout=10,
+        )
+
+        if response.status_code == 404:
             return []
-            
+
+        response.raise_for_status()
+
         data = response.json()
-        suggestions = set()
+        results = data.get("results", [])
 
-        if "results" in data:
-            for item in data["results"]:
-                openfda = item.get("openfda", {})
-                
-                # Brand names collect karein
-                for brand in openfda.get("brand_name", []):
-                    if search_term in brand.lower():
-                        suggestions.add(brand.title())
-                        
-                # Generic names collect karein
-                for generic in openfda.get("generic_name", []):
-                    if search_term in generic.lower():
-                        suggestions.add(generic.title())
+        suggestions = []
 
-        return list(suggestions)[:limit]
+        for drug in results:
+            openfda = drug.get("openfda", {})
 
-    except Exception as e:
-        print(f"Error fetching suggestions: {e}")
+            brand_names = openfda.get("brand_name", [])
+            generic_names = openfda.get("generic_name", [])
+
+            for name in brand_names + generic_names:
+                if name and name not in suggestions:
+                    suggestions.append(name)
+
+                if len(suggestions) >= limit:
+                    return suggestions
+
+        return suggestions
+
+    except requests.RequestException:
         return []

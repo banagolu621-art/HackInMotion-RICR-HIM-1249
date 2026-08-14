@@ -2,7 +2,6 @@ from openfdaservices import get_drug_safety
 
 
 def check_interaction(drug1: str, drug2: str):
-
     """
     Check interaction information between two medicines
     using real openFDA drug-label information.
@@ -16,7 +15,7 @@ def check_interaction(drug1: str, drug2: str):
             "status": "unknown",
             "message": f"Could not find FDA information for {drug1}.",
             "drug1": drug1,
-            "drug2": drug2
+            "drug2": drug2,
         }
 
     if not drug2_data.get("found"):
@@ -24,53 +23,46 @@ def check_interaction(drug1: str, drug2: str):
             "status": "unknown",
             "message": f"Could not find FDA information for {drug2}.",
             "drug1": drug1,
-            "drug2": drug2
+            "drug2": drug2,
         }
 
     interactions = []
 
     # Check drug 1 label for drug 2
     for label in drug1_data.get("results", []):
-
-        interaction_text = label.get(
-            "drug_interactions"
-        )
+        interaction_text = label.get("drug_interactions")
 
         if interaction_text:
-
             if drug2.lower() in interaction_text.lower():
-
-                interactions.append({
-                    "source_drug": drug1,
-                    "mentioned_drug": drug2,
-                    "information": interaction_text
-                })
+                interactions.append(
+                    {
+                        "source_drug": drug1,
+                        "mentioned_drug": drug2,
+                        "information": interaction_text,
+                    }
+                )
 
     # Check drug 2 label for drug 1
     for label in drug2_data.get("results", []):
-
-        interaction_text = label.get(
-            "drug_interactions"
-        )
+        interaction_text = label.get("drug_interactions")
 
         if interaction_text:
-
             if drug1.lower() in interaction_text.lower():
-
-                interactions.append({
-                    "source_drug": drug2,
-                    "mentioned_drug": drug1,
-                    "information": interaction_text
-                })
+                interactions.append(
+                    {
+                        "source_drug": drug2,
+                        "mentioned_drug": drug1,
+                        "information": interaction_text,
+                    }
+                )
 
     if interactions:
-
         return {
             "status": "warning",
             "message": "Potential interaction information was found in FDA labeling.",
             "drug1": drug1,
             "drug2": drug2,
-            "interactions": interactions
+            "interactions": interactions,
         }
 
     return {
@@ -82,5 +74,5 @@ def check_interaction(drug1: str, drug2: str):
         ),
         "drug1": drug1,
         "drug2": drug2,
-        "interactions": []
+        "interactions": [],
     }

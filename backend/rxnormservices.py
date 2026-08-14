@@ -11,20 +11,13 @@ def search_drug(drug_name: str):
 
     url = f"{RXNORM_BASE_URL}/drugs.json"
 
-    response = requests.get(
-        url,
-        params={"name": drug_name},
-        timeout=15
-    )
+    response = requests.get(url, params={"name": drug_name}, timeout=15)
 
     response.raise_for_status()
 
     data = response.json()
 
-    result = {
-        "query": drug_name,
-        "medicines": []
-    }
+    result = {"query": drug_name, "medicines": []}
 
     drug_group = data.get("drugGroup", {})
     concept_groups = drug_group.get("conceptGroup", [])
@@ -33,12 +26,14 @@ def search_drug(drug_name: str):
         concepts = group.get("conceptProperties", [])
 
         for concept in concepts:
-            result["medicines"].append({
-                "rxcui": concept.get("rxcui"),
-                "name": concept.get("name"),
-                "synonym": concept.get("synonym"),
-                "tty": concept.get("tty")
-            })
+            result["medicines"].append(
+                {
+                    "rxcui": concept.get("rxcui"),
+                    "name": concept.get("name"),
+                    "synonym": concept.get("synonym"),
+                    "tty": concept.get("tty"),
+                }
+            )
 
     return result
 
@@ -65,10 +60,7 @@ def get_drug_name(rxcui: str):
 
     url = f"{RXNORM_BASE_URL}/rxcui/{rxcui}.json"
 
-    response = requests.get(
-        url,
-        timeout=15
-    )
+    response = requests.get(url, timeout=15)
 
     response.raise_for_status()
 
