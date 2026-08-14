@@ -1,0 +1,159 @@
+{
+  "name": "Med-Pal",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9e2c9fe8-a4aa-4aa8-82ad-f45f30dd3f88",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -112,
+        16
+      ],
+      "webhookId": "420ac5fd-e683-4ad0-b76c-516bea1666eb"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are MedPal, an AI-powered medicine information and drug-safety assistant.\n\nYour purpose is to help users understand medicines, drug interactions, warnings, precautions, and reported adverse reactions using reliable data sources connected to the workflow.\n\nIMPORTANT TOOL USAGE:\n\n1. FDA Drug Label Tool\nUse this tool whenever the user asks about:\n- Drug-drug interactions\n- Whether two medicines can be taken together\n- Medicine warnings\n- Contraindications\n- Drug interaction risks\n- Medicine-specific safety information\n\nThe FDA Drug Label API is the primary source for drug interaction and official labeling information.\n\n2. Google Sheets Medicine Database\nUse the Google Sheets medicine database when you need basic information about a medicine such as:\n- Medicine name\n- Generic name\n- Strength\n- Medicine type\n\nDo not treat the Google Sheets dataset as the complete drug interaction database.\n\nGENERAL BEHAVIOR:\n\n- For a simple greeting such as \"Hi\", \"Hello\", or \"Hey\", respond naturally and briefly.\n- Do NOT call the medical APIs for simple greetings.\n- If the user asks a medical or medicine-related question, use the appropriate tool before answering whenever relevant.\n- Never invent drug interactions, medical facts, API results, or medicine information.\n- Do not claim that an interaction exists unless supported by the available data.\n- If the available database/API does not contain enough information, clearly say that you could not find sufficient information.\n- Never present yourself as a doctor.\n- Do not diagnose diseases.\n- Do not prescribe, change, or recommend prescription dosages.\n- For potentially serious interactions or symptoms, advise the user to consult a qualified healthcare professional.\n- Emergency symptoms should be treated as requiring immediate professional medical attention.\n\nRISK ASSESSMENT:\n\nWhen sufficient interaction information is available, organize the response as:\n\nMedicine 1:\nMedicine 2:\nRisk level:\nExplanation:\nSymptoms/signs to watch:\nRecommendation:\nSource:\n\nDo not invent a Mild/Moderate/Severe classification if the source does not provide enough evidence to justify it. Clearly distinguish FDA-reported information from your own interpretation.\n\nRESPONSE STYLE:\n\n- Be clear and concise.\n- Use simple language.\n- Avoid unnecessary technical terminology.\n- Do not dump raw JSON or raw API responses on the user.\n- Convert retrieved information into a clean, understandable response.\n- Always prioritize information retrieved from the connected medical data sources over assumptions.\n\nMEDICAL SAFETY:\n\nThe information provided by MedPal is for informational and educational purposes only and is not a substitute for advice from a doctor, pharmacist, or other qualified healthcare professional."
+        }
+      },
+      "id": "0d6e0fb8-9691-4195-9afb-a7e995016dcc",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        192,
+        32
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "1baca8e1-1531-4cc4-8896-5fac90de0694",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        336,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "id": "5b289762-4606-42a7-a01f-dde2a2bc8391",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        240
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eMl7qxBq5lpV8C12",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oSL0EXOCXGoKnpmgEEHK682ureW4KLxAYns0ZGj4CXI",
+          "mode": "list",
+          "cachedResultName": "ReadRows",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oSL0EXOCXGoKnpmgEEHK682ureW4KLxAYns0ZGj4CXI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "ReadRows",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oSL0EXOCXGoKnpmgEEHK682ureW4KLxAYns0ZGj4CXI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "584faff3-7fab-4640-b469-4192ba3ebc2e",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        240
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ExmHBpOSWfmrmFyv",
+          "name": "Google Sheets account 4"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a0ce7cca-dc51-4d8d-9005-17e2d0cdb998",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09cfe3051e665991b4f448146c5a43390c7f3426f59826b49660d670b5c0d3e9"
+  },
+  "nodeGroups": [],
+  "id": "TeaWFFsiGdInlnUj",
+  "tags": []
+}
