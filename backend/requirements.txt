@@ -7,6 +7,4 @@ passlib[bcrypt]
 bcrypt
 requests
 python-dotenv
-pytesseract
-Pillow
-PyMuPDF
+
